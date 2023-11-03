@@ -2,6 +2,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Security.Cryptography.X509Certificates;
+using WebUiTest.Pages.Impl;
 
 namespace WebUiTest
 {
@@ -31,25 +32,16 @@ namespace WebUiTest
         [Test]
         public void TestSearchReasult()
         {
-            IWebElement searchField = _driver.FindElement(By.CssSelector("#twotabsearchtextbox"));
-            searchField.SendKeys(_searchQuery);
-            searchField.SendKeys(Keys.Enter);
+            var mainPage = new HomePage(_driver);
+            var resultPage = new SearchResultsPage(_driver);
 
-            IList<string> actualList = _driver.FindElements(By.CssSelector(".s-main-slot h2 .a-link-normal"))
-                .Select(item => item.Text.ToLower().ToString())
-                .ToList();
-            IList<string> expectedList = actualList
-                .Where(item => item.Contains(_searchQuery))
-                .ToList();
+            mainPage.PerformSearch(_searchQuery);
 
+            var actualList = resultPage.SearchResultItemText();
+            var expectedList = resultPage.SearchResultItemWithText(_searchQuery);
+                        
             //System.Threading.Thread.Sleep(5000);
             Assert.AreEqual(expectedList, actualList);
-
-            //Assert.True(_driver.FindElement(By.CssSelector("#nav-logo-sprites")).Displayed);
-            Assert.True(IsElementVisible(By.CssSelector("#nav-logo-sprites")));
-
-            SwitchOffImplicitWait();
-            Assert.True(IsElementVisibleExplicitWait(By.CssSelector("#nav-logo-sprites")));
 
         }
 
