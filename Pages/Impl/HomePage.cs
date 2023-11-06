@@ -5,18 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebUiTest.Component.Impl;
 
 namespace WebUiTest.Pages.Impl
 {
     internal class HomePage : WebPage
     {
-        private IWebElement searchElement => FindElement(By.CssSelector("#twotabsearchtextbox"));
+        private static readonly By SearchComponentSelector = By.CssSelector("#twotabsearchtextbox");
         public HomePage(IWebDriver driver) : base(driver) { }
 
-        public void PerformSearch(string searchWord)
-        {
-            searchElement.SendKeys(searchWord);
-            searchElement.SendKeys(Keys.Enter);
-        }
+        public SearchComponent SearchComponent => new SearchComponent(FindElement(SearchComponentSelector));
     }
 }

@@ -35,7 +35,7 @@ namespace WebUiTest
             var mainPage = new HomePage(_driver);
             var resultPage = new SearchResultsPage(_driver);
 
-            mainPage.PerformSearch(_searchQuery);
+            mainPage.SearchComponent.PerformSearch(_searchQuery);
 
             var actualList = resultPage.SearchResultItemText();
             var expectedList = resultPage.SearchResultItemWithText(_searchQuery);

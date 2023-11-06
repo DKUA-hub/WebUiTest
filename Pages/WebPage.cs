@@ -10,17 +10,17 @@ namespace WebUiTest.Pages
     internal class WebPage
     {
         private IWebDriver _driver;
-        public WebPage(IWebDriver driver)
+        protected WebPage(IWebDriver driver)
         {
             _driver = driver;
         }
 
-        public IList<IWebElement> FindElements(By bySelector)
+        protected IList<IWebElement> FindElements(By bySelector)
         {
             return _driver.FindElements(bySelector);
         }
 
-        public IWebElement FindElement(By bySelector)
+        protected IWebElement FindElement(By bySelector)
         {
             return _driver.FindElement(bySelector);
         }

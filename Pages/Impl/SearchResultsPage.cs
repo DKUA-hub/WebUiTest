@@ -5,28 +5,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebUiTest.Component.Impl;
 
 namespace WebUiTest.Pages.Impl
 {
     internal class SearchResultsPage : WebPage
     {
-        private IList<IWebElement> _result => FindElements(By.CssSelector(".s-main-slot h2 .a-link-normal"));
+        private static readonly By SearchResultItemSelector = By.CssSelector(".s-main-slot h2 .a-link-normal");
+
+        private IList<SearchResultItemComponent> SearchResultItems => 
+            FindElements(SearchResultItemSelector)
+                .Select(item => new SearchResultItemComponent(item))
+                .ToList();
         public SearchResultsPage(IWebDriver driver) : base(driver)
-        {
-            
+        {            
         }
 
         public IList<string> SearchResultItemText()
         {
-            return _result
-                .Select(item => item.Text.ToLower())
+            return SearchResultItems
+                .Select(item => item.Text)
                 .ToList();
         }
 
-        public IList<string> SearchResultItemWithText(string searchWord)
+        public IList<string> SearchResultItemWithText(string searchPhrase)
         {
-            return SearchResultItemText()
-                .Where(item => item.Contains(searchWord))
+            return SearchResultItems
+                .Where(item => item.ContainsSearchText(searchPhrase))
+                .Select(item => item.Text)
                 .ToList();
         }
     }
