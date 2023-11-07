@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebUiTest.Component.Impl;
+using WebUiTest.Entities;
 
 namespace WebUiTest.Pages.Impl
 {
@@ -21,18 +22,18 @@ namespace WebUiTest.Pages.Impl
         {            
         }
 
-        public IList<string> SearchResultItemText()
+        public IList<SearchResultItem> SearchResultsItems()
         {
             return SearchResultItems
-                .Select(item => item.Text)
+                .Select(item => item.ConvertToSearchResultItem())
                 .ToList();
         }
 
-        public IList<string> SearchResultItemWithText(string searchPhrase)
+        public IList<SearchResultItem> SearchResultItemWithText(string searchPhrase)
         {
-            return SearchResultItems
-                .Where(item => item.ContainsSearchText(searchPhrase))
-                .Select(item => item.Text)
+            return SearchResultsItems()
+                .Where(item => item.Title.Contains(searchPhrase) ||
+                                item.Description.Contains(searchPhrase))
                 .ToList();
         }
     }

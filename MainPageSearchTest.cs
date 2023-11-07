@@ -37,7 +37,7 @@ namespace WebUiTest
 
             mainPage.SearchComponent.PerformSearch(_searchQuery);
 
-            var actualList = resultPage.SearchResultItemText();
+            var actualList = resultPage.SearchResultsItems();
             var expectedList = resultPage.SearchResultItemWithText(_searchQuery);
                         
             //System.Threading.Thread.Sleep(5000);

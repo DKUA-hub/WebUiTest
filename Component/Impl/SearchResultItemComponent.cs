@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebUiTest.Entities;
 
 namespace WebUiTest.Component.Impl
 {
@@ -16,15 +17,9 @@ namespace WebUiTest.Component.Impl
         {
         }
 
-        public bool ContainsSearchText(string searchPhrase)
-        {
-            return ContainsSearchTextIgnoringCase(searchPhrase, _titleSelector) ||
-                ContainsSearchTextIgnoringCase(searchPhrase, _descriptionSelector);
-        }
-
-        private bool ContainsSearchTextIgnoringCase(string searchPhrase, By selector)
-        {
-            return FindElement(selector).Text.ToLower().Contains(searchPhrase.ToLower());
-        }
+        public SearchResultItem ConvertToSearchResultItem() =>
+            new SearchResultItem(
+                FindElement(_titleSelector).Text.ToLower(),
+                FindElement(_descriptionSelector).Text.ToLower());
     }
 }
